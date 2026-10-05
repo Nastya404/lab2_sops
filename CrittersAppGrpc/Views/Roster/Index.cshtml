@@ -1,0 +1,41 @@
+@model IEnumerable<CrittersApp.Models.Roster>
+@{
+    ViewData["Title"] = "Roster";
+}
+
+<h2>Таблица Roster</h2>
+<a asp-action="Create" class="btn btn-success mb-3">Добавить игрока</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>№</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Поз.</th>
+            <th>Дата рождения</th>
+            <th>Вес</th>
+            <th>Рост</th>
+            <th>Город</th>
+            <th>Штат</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.PlayerId</td>
+                <td>@p.Jersey</td>
+                <td>@p.FName</td>
+                <td>@p.SName</td>
+                <td>@p.Position</td>
+                <td>@p.Birthday.ToShortDateString()</td>
+                <td>@p.Weight</td>
+                <td>@p.Height</td>
+                <td>@p.BirthCity</td>
+                <td>@p.BirthState</td>
+            </tr>
+        }
+    </tbody>
+</table>
