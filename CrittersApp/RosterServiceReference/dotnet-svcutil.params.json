@@ -1,0 +1,50 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "8.0.0",
+  "options": {
+    "inputs": [
+      "http://localhost:5100/RosterService.svc?wsdl"
+    ],
+    "namespaceMappings": [
+      "*, CrittersApp.RosterServiceReference"
+    ],
+    "outputFile": "Reference.cs",
+    "references": [
+      "Google.Protobuf, {Google.Protobuf, 3.36.2}",
+      "Grpc.Core.Api, {Grpc.Core.Api, 2.84.0}",
+      "Grpc.Net.Client, {Grpc.Net.Client, 2.84.0}",
+      "Grpc.Net.ClientFactory, {Grpc.Net.ClientFactory, 2.84.0}",
+      "Grpc.Net.Common, {Grpc.Net.Common, 2.84.0}",
+      "Microsoft.Data.Sqlite, {Microsoft.Data.Sqlite.Core, 9.0.20}",
+      "Microsoft.EntityFrameworkCore, {Microsoft.EntityFrameworkCore, 9.0.20}",
+      "Microsoft.EntityFrameworkCore.Abstractions, {Microsoft.EntityFrameworkCore.Abstractions, 9.0.20}",
+      "Microsoft.EntityFrameworkCore.Relational, {Microsoft.EntityFrameworkCore.Relational, 9.0.20}",
+      "Microsoft.EntityFrameworkCore.Sqlite, {Microsoft.EntityFrameworkCore.Sqlite.Core, 9.0.20}",
+      "Microsoft.Extensions.Caching.Abstractions, {Microsoft.Extensions.Caching.Abstractions, 9.0.20}",
+      "Microsoft.Extensions.Caching.Memory, {Microsoft.Extensions.Caching.Memory, 9.0.20}",
+      "Microsoft.Extensions.Configuration, {Microsoft.Extensions.Configuration, 8.0.0}",
+      "Microsoft.Extensions.Configuration.Abstractions, {Microsoft.Extensions.Configuration.Abstractions, 9.0.20}",
+      "Microsoft.Extensions.Configuration.Binder, {Microsoft.Extensions.Configuration.Binder, 8.0.0}",
+      "Microsoft.Extensions.DependencyInjection, {Microsoft.Extensions.DependencyInjection, 9.0.20}",
+      "Microsoft.Extensions.DependencyInjection.Abstractions, {Microsoft.Extensions.DependencyInjection.Abstractions, 9.0.20}",
+      "Microsoft.Extensions.DependencyModel, {Microsoft.Extensions.DependencyModel, 9.0.20}",
+      "Microsoft.Extensions.Diagnostics, {Microsoft.Extensions.Diagnostics, 8.0.1}",
+      "Microsoft.Extensions.Diagnostics.Abstractions, {Microsoft.Extensions.Diagnostics.Abstractions, 8.0.1}",
+      "Microsoft.Extensions.Http, {Microsoft.Extensions.Http, 8.0.1}",
+      "Microsoft.Extensions.Logging, {Microsoft.Extensions.Logging, 9.0.20}",
+      "Microsoft.Extensions.Logging.Abstractions, {Microsoft.Extensions.Logging.Abstractions, 9.0.20}",
+      "Microsoft.Extensions.ObjectPool, {Microsoft.Extensions.ObjectPool, 8.0.10}",
+      "Microsoft.Extensions.Options, {Microsoft.Extensions.Options, 9.0.20}",
+      "Microsoft.Extensions.Options.ConfigurationExtensions, {Microsoft.Extensions.Options.ConfigurationExtensions, 8.0.0}",
+      "Microsoft.Extensions.Primitives, {Microsoft.Extensions.Primitives, 9.0.20}",
+      "SQLitePCLRaw.batteries_v2, {SQLitePCLRaw.bundle_e_sqlite3, 2.1.13}",
+      "SQLitePCLRaw.core, {SQLitePCLRaw.core, 2.1.13}",
+      "SQLitePCLRaw.provider.e_sqlite3, {SQLitePCLRaw.provider.e_sqlite3, 2.1.13}",
+      "System.Security.Cryptography.Pkcs, {System.Security.Cryptography.Pkcs, 9.0.20}",
+      "System.Security.Cryptography.Xml, {System.Security.Cryptography.Xml, 9.0.20}",
+      "System.Text.Json, {System.Text.Json, 9.0.20}"
+    ],
+    "targetFramework": "net9.0",
+    "typeReuseMode": "All"
+  }
+}

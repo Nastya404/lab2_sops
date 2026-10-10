@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <!-- Клиент: только веб-интерфейс, данных не хранит. Всё через службы на сервере. -->
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <!-- БД -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.20">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.20" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.13" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="CRITTERS.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <!-- Вариант 2.1: WCF-клиент (прокси-класс ValidationServiceReference/Reference.cs) -->
+  <!-- Вариант 2.1: WCF-клиент (прокси-класс RosterServiceReference/Reference.cs) -->
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
@@ -38,6 +24,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="..\CrittersGrpcService\Protos\roster_validation.proto" GrpcServices="Client" Link="Protos\roster_validation.proto" />
+    <Protobuf Include="..\CrittersGrpcService\Protos\roster.proto" GrpcServices="Client" Link="Protos\roster.proto" />
   </ItemGroup>
 </Project>

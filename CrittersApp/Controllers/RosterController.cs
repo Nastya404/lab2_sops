@@ -1,96 +1,88 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CrittersApp.Data;
 using CrittersApp.Models;
 using CrittersApp.Services;
 
 namespace CrittersApp.Controllers;
 
+// Все данные — на сервере. Контроллер только передаёт их между браузером и службой.
 public class RosterController : Controller
 {
-    private readonly CrittersContext _db;
-    private readonly IRosterValidationClient _validator;
+    private readonly IRosterClient _service;
     private readonly ILogger<RosterController> _logger;
 
-    public RosterController(CrittersContext db, IRosterValidationClient validator,
-                            ILogger<RosterController> logger)
+    public RosterController(IRosterClient service, ILogger<RosterController> logger)
     {
-        _db = db;
-        _validator = validator;
+        _service = service;
         _logger = logger;
     }
 
     public async Task<IActionResult> Index()
     {
-        var players = await _db.Roster
-            .AsNoTracking()
-            .OrderBy(p => p.SName)
-            .ToListAsync();
-        return View(players);
+        try
+        {
+            return View(await _service.GetPlayersAsync());
+        }
+        catch (Exception ex)
+        {
+            ReportUnavailable(ex);
+            return View(Array.Empty<Player>());
+        }
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        FillDropdowns();
-        return View(new Roster { Birthday = new DateTime(2000, 1, 1) });
+        await FillDropdownsAsync();
+        return View(new Player { Birthday = new DateTime(2000, 1, 1) });
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Roster model)
+    public async Task<IActionResult> Create(Player model)
     {
-        model.PlayerId = model.PlayerId?.Trim() ?? "";
-
-        if (!RosterLookups.Positions.Contains(model.Position))
-            ModelState.AddModelError(nameof(model.Position), "Недопустимая позиция.");
-        if (!RosterLookups.States.Contains(model.BirthState))
-            ModelState.AddModelError(nameof(model.BirthState), "Недопустимый штат рождения.");
-
-        // Правила предметной области проверяет удалённая служба (WCF или gRPC).
-        // Вызываем её только для формально корректной записи.
+        // Ошибки разбора формы (например, буквы в числовом поле) — не отправляем на сервер
         if (ModelState.IsValid)
-            await ValidateRulesAsync(model);
-
-        if (model.PlayerId.Length > 0 &&
-            await _db.Roster.AnyAsync(p => p.PlayerId == model.PlayerId))
-            ModelState.AddModelError(nameof(model.PlayerId),
-                $"Игрок с ID «{model.PlayerId}» уже существует.");
-
-        if (model.Jersey.HasValue &&
-            await _db.Roster.AnyAsync(p => p.Jersey == model.Jersey))
-            ModelState.AddModelError(nameof(model.Jersey),
-                $"Номер {model.Jersey} уже занят другим игроком.");
-
-        if (!ModelState.IsValid)
         {
-            FillDropdowns();
-            return View(model);
+            try
+            {
+                var errors = await _service.AddPlayerAsync(model);
+                if (errors.Count == 0)
+                    return RedirectToAction(nameof(Index));
+
+                foreach (var e in errors)
+                    ModelState.AddModelError(e.Field, e.Message);
+            }
+            catch (Exception ex)
+            {
+                ReportUnavailable(ex);
+            }
         }
 
-        _db.Roster.Add(model);
-        await _db.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        await FillDropdownsAsync();
+        return View(model);
     }
 
-    private async Task ValidateRulesAsync(Roster model)
+    private async Task FillDropdownsAsync()
     {
         try
         {
-            foreach (var error in await _validator.ValidateAsync(model))
-                ModelState.AddModelError(string.Empty, error);
+            var options = await _service.GetOptionsAsync();
+            ViewBag.Positions = new SelectList(options.Positions);
+            ViewBag.States = new SelectList(options.States);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Ошибка вызова службы проверки правил");
-            ModelState.AddModelError(string.Empty,
-                $"Служба проверки правил недоступна: {ex.Message}");
+            ReportUnavailable(ex);
+            ViewBag.Positions = ViewBag.States = new SelectList(Array.Empty<string>());
         }
     }
 
-    private void FillDropdowns()
+    private void ReportUnavailable(Exception ex)
     {
-        ViewBag.Positions = new SelectList(RosterLookups.Positions);
-        ViewBag.States = new SelectList(RosterLookups.States);
+        _logger.LogError(ex, "Ошибка обращения к серверу");
+        var message = $"Сервер недоступен: {ex.Message}";
+        // Пустой ключ — общая ошибка формы (блок asp-validation-summary)
+        if (ModelState[string.Empty]?.Errors.Any(e => e.ErrorMessage == message) != true)
+            ModelState.AddModelError(string.Empty, message);
     }
 }

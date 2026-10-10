@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\roster_validation.proto" GrpcServices="Server"/>
+    <Protobuf Include="Protos\roster.proto" GrpcServices="Server"/>
   </ItemGroup>
 </Project>

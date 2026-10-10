@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "CrittersGrpc";
+package critters;
+
+// Все данные хранятся на сервере; клиент только отображает и отправляет их.
+service Roster {
+  // Все игроки из БД сервера
+  rpc GetPlayers (google.protobuf.Empty) returns (PlayerList);
+  // Проверка и сохранение игрока. Пустой список ошибок — запись сохранена.
+  rpc AddPlayer (Player) returns (AddPlayerReply);
+  // Допустимые значения для выпадающих списков формы
+  rpc GetOptions (google.protobuf.Empty) returns (Options);
+}
+
+message Player {
+  string player_id = 1;
+  google.protobuf.Int32Value jersey = 2;
+  string fname = 3;
+  string sname = 4;
+  string position = 5;
+  string birthday = 6;   // yyyy-MM-dd, пусто — не задана
+  google.protobuf.Int32Value height = 7;
+  google.protobuf.Int32Value weight = 8;
+  string birth_city = 9;
+  string birth_state = 10;
+}
+
+message PlayerList {
+  repeated Player players = 1;
+}
+
+message FieldError {
+  string field = 1;      // имя поля; пусто — ошибка всей записи
+  string message = 2;
+}
+
+message AddPlayerReply {
+  repeated FieldError errors = 1;
+}
+
+message Options {
+  repeated string positions = 1;
+  repeated string states = 2;
+}

@@ -5,20 +5,20 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://*:5000",
+      "applicationUrl": "http://*:5080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Validation__Transport": "Wcf"
+        "RosterService__Transport": "Wcf"
       }
     },
     "grpc": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://*:5001",
+      "applicationUrl": "http://*:5081",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Validation__Transport": "Grpc"
+        "RosterService__Transport": "Grpc"
       }
     }
   }

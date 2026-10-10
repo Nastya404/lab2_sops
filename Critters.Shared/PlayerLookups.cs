@@ -1,7 +1,7 @@
-namespace CrittersApp.Models;
+namespace Critters.Shared;
 
-// Допустимые значения для выпадающих списков формы и серверной проверки
-public static class RosterLookups
+// Допустимые значения полей; клиент получает их операцией GetOptions для выпадающих списков
+public static class PlayerLookups
 {
     public static readonly string[] Positions = ["C", "LW", "RW", "D", "G"];
 

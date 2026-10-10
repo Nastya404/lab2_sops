@@ -1,5 +1,5 @@
 @using Microsoft.Extensions.Options
-@inject IOptions<CrittersApp.Services.ValidationOptions> Validation
+@inject IOptions<CrittersApp.Services.RosterServiceOptions> Service
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -25,7 +25,7 @@
                     </li>
                 </ul>
                 <span class="navbar-text small">
-                    Служба проверки: <b>@Validation.Value.Transport</b> (@Validation.Value.CurrentUrl)
+                    Сервер: <b>@Service.Value.Transport</b> (@Service.Value.CurrentUrl)
                 </span>
             </div>
         </nav>
