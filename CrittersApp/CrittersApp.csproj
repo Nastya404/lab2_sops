@@ -5,21 +5,39 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <!-- БД -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.9">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.20">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.20" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.13" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CRITTERS.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <!-- Вариант 2.1: WCF-клиент (прокси-класс ValidationServiceReference/Reference.cs) -->
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Http" Version="8.*" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.*" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="8.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.20" />
+  </ItemGroup>
+
+  <!-- Вариант 2.2: gRPC-клиент. Один .proto на клиент и сервер: контракт берётся из проекта службы -->
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.36.2" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.84.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.84.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="..\CrittersGrpcService\Protos\roster_validation.proto" GrpcServices="Client" Link="Protos\roster_validation.proto" />
   </ItemGroup>
 </Project>

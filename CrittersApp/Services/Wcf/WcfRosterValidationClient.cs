@@ -1,39 +1,34 @@
-using System.ServiceModel;
 using CrittersApp.Models;
 using CrittersApp.ValidationServiceReference;
+using Microsoft.Extensions.Options;
 
-namespace CrittersApp.Services;
+namespace CrittersApp.Services.Wcf;
 
 public class WcfRosterValidationClient : IRosterValidationClient
 {
-    private readonly string _url;
+    private readonly ValidationOptions _options;
 
-    public WcfRosterValidationClient(IConfiguration cfg)
-        => _url = cfg["Services:WcfValidationUrl"] ?? "http://localhost:5100/ValidationService.svc";
+    public WcfRosterValidationClient(IOptions<ValidationOptions> options)
+        => _options = options.Value;
 
     public async Task<IReadOnlyList<string>> ValidateAsync(Roster m)
     {
+        // Прокси-класс, сгенерированный dotnet-svcutil по WSDL; адрес службы — из конфигурации
         var client = new ValidationServiceClient(
-            ValidationServiceClient.EndpointConfiguration.BasicHttpBinding_IValidationService, _url);
+            ValidationServiceClient.EndpointConfiguration.BasicHttpBinding_IValidationService, _options.WcfUrl);
+        var timeout = TimeSpan.FromSeconds(_options.TimeoutSeconds);
+        client.Endpoint.Binding.OpenTimeout = timeout;
+        client.Endpoint.Binding.SendTimeout = timeout;
         try
         {
-            var dto = new RosterDto
-            {
-                PlayerId = m.PlayerId,
-                Jersey = m.Jersey,
-                Position = m.Position,
-                Birthday = m.Birthday,
-                Height = m.Height,
-                Weight = m.Weight,
-                BirthState = m.BirthState
-            };
-            string[] errors = await client.ValidateAsync(dto);
-            return errors;
+            string[] errors = await client.ValidateAsync(m.ToWcfDto());
+            client.Close();
+            return errors ?? [];
         }
-        finally
+        catch
         {
-            if (client.State == CommunicationState.Faulted) client.Abort();
-            else client.Close();
+            client.Abort();
+            throw;
         }
     }
 }

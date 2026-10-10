@@ -13,14 +13,22 @@ public class RosterValidationService : RosterValidation.RosterValidationBase
         if (!DateTime.TryParseExact(request.Birthday, "yyyy-MM-dd",
                 CultureInfo.InvariantCulture, DateTimeStyles.None, out var birthday))
         {
-            reply.Errors.Add("Некорректный формат даты рождения.");
+            reply.Errors.Add("Некорректный формат даты рождения (ожидается yyyy-MM-dd).");
             return Task.FromResult(reply);
         }
 
-        var data = new RosterData(request.PlayerId, request.Jersey, request.Position,
-                                  birthday, request.Height, request.Weight, request.BirthState);
-
-        reply.Errors.AddRange(RosterRules.Validate(data));
+        reply.Errors.AddRange(RosterRules.Validate(ToRosterData(request, birthday)));
         return Task.FromResult(reply);
     }
+
+    // Маппинг protobuf-сообщения -> доменная модель правил.
+    // Int32Value (wrappers.proto) генерируется как int?, пустая строка proto3 = «нет значения».
+    private static RosterData ToRosterData(RosterRequest r, DateTime birthday) => new(
+        PlayerId: string.IsNullOrWhiteSpace(r.PlayerId) ? null : r.PlayerId.Trim(),
+        Jersey: r.Jersey,
+        Position: r.Position.Trim().ToUpperInvariant(),
+        Birthday: birthday,
+        Height: r.Height,
+        Weight: r.Weight,
+        BirthState: r.BirthState.Trim().ToUpperInvariant());
 }

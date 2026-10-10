@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="CoreWCF.Http" Version="1.9.1" />
     <PackageReference Include="CoreWCF.Primitives" Version="1.9.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.20" />
   </ItemGroup>
 
   <ItemGroup>
