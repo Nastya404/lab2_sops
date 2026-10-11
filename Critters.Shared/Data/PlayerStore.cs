@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Critters.Shared.Data;
 
-// Хранилище игроков на сервере. Используется и WCF-, и gRPC-службой.
 public class PlayerStore
 {
     private readonly IDbContextFactory<CrittersContext> _dbFactory;
@@ -17,8 +16,6 @@ public class PlayerStore
         return await db.Roster.AsNoTracking().OrderBy(p => p.SName).ToListAsync();
     }
 
-    // Проверяет запись (поля, правила, уникальность ID и номера) и сохраняет её.
-    // Пустой список ошибок — запись сохранена.
     public async Task<List<FieldError>> AddAsync(Player player)
     {
         Normalize(player);
@@ -53,8 +50,6 @@ public class PlayerStore
 
 public static class CrittersDataExtensions
 {
-    // Подключение БД для службы. Путь — "Database" из appsettings.json,
-    // относительный путь считается от папки проекта службы.
     public static IServiceCollection AddCrittersData(this IServiceCollection services,
         IConfiguration config, string contentRoot)
     {

@@ -1,6 +1,4 @@
 using CrittersApp.Services;
-using CrittersApp.Services.Grpc;
-using CrittersApp.Services.Wcf;
 using CrittersGrpc;
 
 var builder = WebApplication.CreateBuilder(args);

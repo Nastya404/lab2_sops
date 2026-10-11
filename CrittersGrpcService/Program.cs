@@ -5,12 +5,10 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// gRPC без TLS требует HTTP/2 (h2c). Слушаем все интерфейсы, чтобы служба была доступна по сети.
 var port = builder.Configuration.GetValue("GrpcPort", 5200);
 builder.WebHost.ConfigureKestrel(o =>
     o.ListenAnyIP(port, l => l.Protocols = HttpProtocols.Http2));
 
-// БД на сервере (путь — "Database" в appsettings.json)
 builder.Services.AddCrittersData(builder.Configuration, builder.Environment.ContentRootPath);
 builder.Services.AddGrpc();
 

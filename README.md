@@ -216,8 +216,8 @@ CrittersApp/
   Controllers/RosterController.cs  список / добавление, ошибки сервера выводит в форму
   Models/Player.cs                 модель формы (без БД и без правил)
   Services/IRosterClient.cs        общий интерфейс клиента службы
-  Services/Wcf/WcfRosterClient     вариант 2.1, прокси-класс RosterServiceReference/Reference.cs
-  Services/Grpc/GrpcRosterClient   вариант 2.2, клиент генерируется из roster.proto
+  Services/WcfRosterClient.cs      вариант 2.1, клиент WCF-службы через прокси-класс RosterServiceReference/Reference.cs
+  Services/GrpcRosterClient.cs     вариант 2.2, клиент gRPC-службы (код генерируется из roster.proto)
   Services/RosterMapping.cs        маппинг Player <-> PlayerDto (WCF) и Player <-> protobuf Player (gRPC)
   Services/RosterServiceOptions    настройки: Transport (Wcf | Grpc), адреса служб, таймаут
 ```

@@ -5,7 +5,6 @@ namespace CrittersWcfService;
 
 public static class Ns { public const string Value = "http://critters.example/roster"; }
 
-// Игрок в SOAP-сообщениях
 [DataContract(Namespace = Ns.Value)]
 public class PlayerDto
 {
@@ -21,7 +20,6 @@ public class PlayerDto
     [DataMember] public string? BirthState { get; set; }
 }
 
-// Ошибка проверки: Field — имя поля (пусто — ошибка всей записи)
 [DataContract(Namespace = Ns.Value)]
 public class FieldErrorDto
 {
@@ -29,7 +27,6 @@ public class FieldErrorDto
     [DataMember] public string Message { get; set; } = "";
 }
 
-// Допустимые значения для выпадающих списков формы
 [DataContract(Namespace = Ns.Value)]
 public class OptionsDto
 {
@@ -40,11 +37,9 @@ public class OptionsDto
 [ServiceContract(Namespace = Ns.Value)]
 public interface IRosterService
 {
-    // Все игроки из БД сервера
     [OperationContract]
     Task<PlayerDto[]> GetPlayers();
 
-    // Проверка и сохранение игрока на сервере. Пустой массив — запись сохранена.
     [OperationContract]
     Task<FieldErrorDto[]> AddPlayer(PlayerDto player);
 

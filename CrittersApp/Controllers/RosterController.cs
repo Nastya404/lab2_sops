@@ -5,7 +5,6 @@ using CrittersApp.Services;
 
 namespace CrittersApp.Controllers;
 
-// Все данные — на сервере. Контроллер только передаёт их между браузером и службой.
 public class RosterController : Controller
 {
     private readonly IRosterClient _service;
@@ -40,7 +39,6 @@ public class RosterController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Player model)
     {
-        // Ошибки разбора формы (например, буквы в числовом поле) — не отправляем на сервер
         if (ModelState.IsValid)
         {
             try
@@ -81,7 +79,6 @@ public class RosterController : Controller
     {
         _logger.LogError(ex, "Ошибка обращения к серверу");
         var message = $"Сервер недоступен: {ex.Message}";
-        // Пустой ключ — общая ошибка формы (блок asp-validation-summary)
         if (ModelState[string.Empty]?.Errors.Any(e => e.ErrorMessage == message) != true)
             ModelState.AddModelError(string.Empty, message);
     }

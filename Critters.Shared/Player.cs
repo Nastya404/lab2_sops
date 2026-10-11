@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Critters.Shared;
 
-// Сущность таблицы roster. Атрибуты проверки — единственный источник правил для полей,
-// проверяются на сервере в PlayerRules.Validate.
 [Table("roster")]
 public class Player
 {

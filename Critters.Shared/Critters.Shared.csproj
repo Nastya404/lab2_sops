@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Серверная часть, общая для WCF- и gRPC-служб: сущность, правила проверки, доступ к БД -->
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

@@ -67,8 +67,7 @@ public class RosterGrpcService : Roster.RosterBase
         return Task.FromResult(reply);
     }
 
-    // Маппинг protobuf-сообщения <-> сущность БД.
-    // Int32Value (wrappers.proto) генерируется как int?, пустая строка proto3 = «нет значения».
+
     private static Critters.Shared.Player ToPlayer(PlayerMessage m, DateTime? birthday) => new()
     {
         PlayerId = m.PlayerId,

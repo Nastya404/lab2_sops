@@ -4,8 +4,7 @@ using Critters.Shared.Data;
 
 namespace CrittersWcfService;
 
-// Namespace задан явно, иначе WSDL службы публикуется в http://tempuri.org/
-// и разбивается на два документа (wsdl + wsdl:import).
+
 [ServiceBehavior(Namespace = Ns.Value)]
 public class RosterService : IRosterService
 {
@@ -46,7 +45,6 @@ public class RosterService : IRosterService
     public OptionsDto GetOptions() =>
         new() { Positions = PlayerLookups.Positions, States = PlayerLookups.States };
 
-    // Маппинг SOAP DataContract <-> сущность БД
     private static Player ToPlayer(PlayerDto d) => new()
     {
         PlayerId = d.PlayerId ?? "",

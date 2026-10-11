@@ -1,9 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace CrittersApp.Models;
-
-// Модель формы и строки таблицы. Клиент ничего не хранит и не проверяет —
-// данные и все правила проверки находятся на сервере (службы WCF/gRPC).
 public class Player
 {
     [Display(Name = "ID игрока")]

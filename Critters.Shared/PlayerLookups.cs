@@ -1,6 +1,5 @@
 namespace Critters.Shared;
 
-// Допустимые значения полей; клиент получает их операцией GetOptions для выпадающих списков
 public static class PlayerLookups
 {
     public static readonly string[] Positions = ["C", "LW", "RW", "D", "G"];

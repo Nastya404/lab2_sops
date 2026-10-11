@@ -2,9 +2,8 @@ using CrittersApp.Models;
 using CrittersApp.RosterServiceReference;
 using Microsoft.Extensions.Options;
 
-namespace CrittersApp.Services.Wcf;
+namespace CrittersApp.Services;
 
-// Вариант 2.1: SOAP через прокси-класс RosterServiceClient, сгенерированный dotnet-svcutil по WSDL
 public class WcfRosterClient : IRosterClient
 {
     private readonly RosterServiceOptions _options;
@@ -29,11 +28,11 @@ public class WcfRosterClient : IRosterClient
         return new PlayerOptions(o.Positions ?? [], o.States ?? []);
     }
 
-    // Один вызов = один прокси: открыть, вызвать, закрыть (при ошибке — Abort)
     private async Task<T> CallAsync<T>(Func<RosterServiceClient, Task<T>> call)
     {
         var client = new RosterServiceClient(
             RosterServiceClient.EndpointConfiguration.BasicHttpBinding_IRosterService, _options.WcfUrl);
+        
         var timeout = TimeSpan.FromSeconds(_options.TimeoutSeconds);
         client.Endpoint.Binding.OpenTimeout = timeout;
         client.Endpoint.Binding.SendTimeout = timeout;

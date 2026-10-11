@@ -5,12 +5,11 @@ using PlayerMessage = CrittersGrpc.Player;
 
 namespace CrittersApp.Services;
 
-// Маппинг модели формы в контракты служб и обратно
 public static class RosterMapping
 {
     private const string DateFormat = "yyyy-MM-dd";
 
-    // ---- WCF: DataContract из прокси-класса (Reference.cs) <-> SOAP XML ----
+    // WCF: DataContract из прокси-класса (Reference.cs) <-> SOAP XML 
 
     public static PlayerDto ToWcfDto(this Player m) => new()
     {
@@ -42,8 +41,7 @@ public static class RosterMapping
 
     public static FieldError ToModel(this FieldErrorDto e) => new(e.Field, e.Message);
 
-    // ---- gRPC: protobuf-сообщения. В proto3 строки не бывают null,
-    // int? передаётся через google.protobuf.Int32Value, дата — строкой yyyy-MM-dd ----
+    //  gRPC: protobuf-сообщения
 
     public static PlayerMessage ToGrpcMessage(this Player m) => new()
     {

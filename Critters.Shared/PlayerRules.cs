@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Critters.Shared;
 
-// Ошибка проверки: Field — имя свойства Player (пусто — ошибка всей записи)
 public record FieldError(string Field, string Message);
 
 public static class PlayerRules
@@ -18,7 +17,6 @@ public static class PlayerRules
         return errors;
     }
 
-    // Обязательность, длины, диапазоны (атрибуты Player) и допустимые значения списков
     private static List<FieldError> ValidateFields(Player p)
     {
         var results = new List<ValidationResult>();
@@ -37,7 +35,6 @@ public static class PlayerRules
         return errors;
     }
 
-    // Правила предметной области (вызываются, когда все поля заполнены корректно)
     private static IEnumerable<FieldError> ValidateBusinessRules(Player p)
     {
         var birthday = p.Birthday!.Value.Date;

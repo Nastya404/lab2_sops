@@ -3,9 +3,8 @@ using CrittersGrpc;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Options;
 
-namespace CrittersApp.Services.Grpc;
+namespace CrittersApp.Services;
 
-// Вариант 2.2: gRPC-клиент, сгенерированный из roster.proto службы
 public class GrpcRosterClient : IRosterClient
 {
     private readonly Roster.RosterClient _client;
